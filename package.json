@@ -1,0 +1,19 @@
+{
+    "name": "Eagle",
+    "version": "0.0.1",
+    "devDependencies": {
+        "grunt": "~0.4.4",
+        "grunt-bowercopy": "^1.0.0",
+        "grunt-concurrent": "^0.5.0",
+        "grunt-connect-proxy": "^0.1.10",
+        "grunt-contrib-connect": "~0.7.1",
+        "grunt-contrib-less": "^0.11.0",
+        "grunt-contrib-watch": "^0.6.1",
+        "grunt-nodemon": "^0.2.1",
+        "load-grunt-tasks": "^0.4.0"
+    },
+    "main": "server.js",
+    "dependencies": {
+        "express": "~4.9.0"
+    }
+}

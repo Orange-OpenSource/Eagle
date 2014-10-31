@@ -1,0 +1,17 @@
+---
+layout: master
+---
+
+{% for sec in site.tags.sections reversed %}
+<section id="{{ sec.htmlId }}">
+    {% if sec.containerLess != true %}
+    <div class="container">
+        <div class="row">
+            {{ sec.content }}
+        </div>
+    </div>
+    {% else %}
+    {{ sec.content }}
+    {% endif %}
+</section>
+{% endfor %}

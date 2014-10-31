@@ -1,0 +1,350 @@
+---
+layout: master
+---
+
+<div class="container page-started">
+    <div class="row">
+        <div class="col-sm-12 u-marg-t-30">
+            <h1>Getting started !</h1>
+            <div class="span6">
+                <h2 class="u-marg-t-30">Abstract</h2>
+                <p>
+                    Eagle uses a set of modules to detect visual regressions on your website or your webapp.
+                    It is designed to operate with Intern by adding specific commands to the Leadfoot Command object.
+                    Thus, you will be able to test visual regressions on PC as well as on smartphones and tablets.
+                </p>
+                <p>
+                    In following sections, we provide tools and explanations <strong>to easily set up a truly working environment</strong> and directly start our Hello World test.
+                </p>
+            </div>
+            <h2 class="u-marg-t-30">Initialize project</h2>
+            <h3 class="u-marg-t-30">Setup automatically an environment (Debian)</h3>
+            <p>Following instructions create a debian virtual machine from a windows host</p>		
+			<p>Here is the VM technical details:</p>
+			<ul>
+				<li>Debian 7.6 32 bits</li>
+				<li>With Gnome graphical interface</li>
+				<li>Latest Chromium</li>
+				<li>Chromedriver 2.10</li>
+				<li>Samba sharing (full anonymous access)</li>
+				<li>Installed packages
+					<ul>
+						<li>NodeJs, Grunt</li>
+						<li>Eagle dependencies (libcairo2-dev, imagemagick)</li>
+					</ul>
+				</li>
+			</ul>
+			<p>Install following components:</p>
+            <ul>
+                <li>Latest version of <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">VirtualBox</a></li>
+                <li>Latest version of <a href="https://www.vagrantup.com/downloads.html" target="_blank">Vagrant</a></li>
+                <li>Retrieve DevOps <a href="http://10.185.111.235/vagrant/eagle/devops.zip" target="_blank">files</a> to mount your environment (optional)</li>
+            </ul>
+            <p><i class="fa fa-2x fa-warning" style="color:#ff9900"></i> Be careful if you just installed VirtualBox, check and change default machine folder to have enough disk space (File>Preferences>General>Default Machine Folder)</p>
+
+            <p>Unzip devops.zip archive</p>
+			<p>Execute a shell in administrator mode. Go to directory where you extracted archive and launch VM provisionning like this :</p>
+			{% highlight sh shell %}
+			vagrant up
+			{% endhighlight %}
+			<p>It could take a while, between 30 min to 1 hour.</p>
+			<p>After installation, you can open SSH session with these informations:</p>
+			<ul>
+				<li>server: localhost:2222</li>
+				<li>login: vagrant</li>
+				<li>password: vagrant</li>
+			</ul>
+			<p>For information, root password is</p>
+			{% highlight sh shell %}
+			vagrant			
+			{% endhighlight %}
+            <h3 class="u-marg-t-30">Or setup manually dependencies</h3>
+            <p>
+            If you choose to install Eagle by your own way, you need to install few dependencies:
+            <ol>
+                <li><a href="http://www.imagemagick.org/" target="_blank">Imagemagicks</a></li>
+                <li><a href="http://cairographics.org/download/" target="_blank">Cairo</a></li>
+                <li><a href="http://nodejs.org/" target="_blank">Node.js and its package manager npm</a></li>
+            </ol>
+            You will also need a browser and its associated WebDriver
+            (example : <a href="https://www.google.fr/chrome/browser/" target="_blank">Chrome</a> and <a href="https://sites.google.com/a/chromium.org/chromedriver/" target="_blank">Chromedriver</a>)
+            </p>
+            <h2>Initialize your project</h3>
+            <p>
+            On your environment freshly installed, create a directory and go in it.
+            {% highlight sh shell %}
+mkdir <your project folder>
+cd <your project folder>
+            {% endhighlight %}
+            </p>
+            <p>
+            Retrieve and install latest version of Eagle and Intern in your project directory:
+            {% highlight sh shell %}
+            npm install eagle-js intern
+            {% endhighlight %}
+            </p>
+            <h3 class="u-marg-t-30">Intern configuration file</h3>
+            <p>
+                Copy the default configuration file from intern and set the suite(s) you want to test:
+            </p>
+            {% highlight sh shell %}
+cp ./node_modules/intern/tests/example.intern.js config.js
+            {% endhighlight %}
+			<p>
+			And edit config.js like this:
+			</p>
+            {% highlight js %}
+    /* config.js file */
+
+    // ...
+
+    suites: ['all.js']
+
+    // ...
+            {% endhighlight %}
+            <h2 class="u-marg-t-30">Write your first test !</h2>
+            <p>
+                In order to run a test, you need to use the suite file specified in your config.js file.
+                It regroups all tests you want to run and launches them as you need.<br/>
+                You can write your own file or use our simple example:
+            </p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse"  href="#collapseOne">
+                            Suite example <small><span class="glyphicon glyphicon-chevron-down"></span></small>
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        {% highlight js linenos %}
+define([
+    './eagletest'
+], function (eagleTest) {
+    eagleTest();
+});
+                        {% endhighlight %}
+                    </div>
+                </div>
+            </div>
+            <p>
+                Once your suite is created, you need to write the test itself.
+
+            </p>
+            <p>
+                A test is composed of 4 parts
+                <ol>
+                <li><strong>The dependencies declaration</strong>: It's the place to import modules or custom libraries (line 1 to 5 of next example)</li>
+                <li><strong>The setup function</strong>: Where you can prepare your test environment en specify which remote browser and WebDriver you want to use(line 10 to 26)</li>
+                <li><strong>Your test function(s)</strong>: That's the main function(s) where you write your test(s) (line 27 to 31)</li>
+                <li><strong>The teardown function</strong>: It's used to close the browser and to do specific actions after test(s) (line 32 to 34)</li>
+                </ol>
+            As you can see in the following example, it's quite simple.
+            </p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse"  href="#collapseTwo">
+                            First example <small><span class="glyphicon glyphicon-chevron-down"></span></small>
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                        {% highlight js linenos %}
+define([ // Declare your modules
+    'intern!object',
+    'intern/dojo/node!leadfoot/Server',
+    'intern/dojo/node!eagle-js',
+	'intern/dojo/Deferred'
+], function (registerSuite, Server, Eagle, Deferred) {
+    return function() {
+        var server, session, eagle;
+        registerSuite({
+            name: 'Eagle_Hello_World',
+            setup: function () { // Prepare your environment
+                server = new Server('http://localhost:9515/');
+                session = server.createSession({
+                    'browserName': 'chrome',
+                    'platform': 'linux'
+                });
+                return session
+                        .then(function(session){
+                            eagle = new Eagle(session);
+                            return eagle
+                                    .initConfig({
+                                        url:'http://orange.jobs/jobs/search.do',
+                                        dimensions: {x:1280, y:1024}
+                                    }, Deferred)
+                                    .setup();
+                        });
+            },
+            'Open_app' : function () { // Make your test
+                return eagle
+                        .sleep(2000)
+                        .captureElementByCssSelector('body','Screenshots/Orange','body');
+            },
+            teardown: function () { // Do stuff at the end of test
+                eagle.quit();
+            }
+        });
+    };
+});
+                        {% endhighlight %}
+
+                    </div>
+                </div>
+            </div>
+            <p>
+                Just try our full example to see how it works:
+            </p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h5 class="panel-title">
+                        <a data-toggle="collapse"  href="#collapseThree">
+                            Hello World example <small><span class="glyphicon glyphicon-chevron-down"></span></small>
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+
+                            {% highlight js linenos %}
+define([
+    'intern!object',
+    'intern/dojo/node!leadfoot/Server',
+    'intern/dojo/node!eagle-js',
+	'intern/dojo/Deferred'
+], function (registerSuite, Server, Eagle, Deferred) {
+    return function() {
+        var server, session, eagle;
+        registerSuite({
+            name: 'Eagle_Hello_World',
+            setup: function () {
+                server = new Server('http://localhost:9515/');
+                session = server.createSession({
+                    'browserName': 'chrome',
+                    'platform': 'linux'
+                });
+                return session
+                        .then(function(session){
+                            eagle = new Eagle(session);
+                            return eagle
+                                    .initConfig({
+                                        url:'http://orange.jobs/jobs/search.do',
+                                        dimensions: {x:1280, y:1024}
+                                    }, Deferred)
+                                    .setup();
+                        });
+            },
+            'Open_app' : function () { /* Check open */
+                return eagle
+                        .sleep(2000)
+                        .captureElementByCssSelector('body','Screenshots/Orange','body');
+            },
+            'Type-Search' : function () { /* type and search engineer jobs */
+                return eagle
+                        .findByCssSelector('.inpt input')
+                        .type('engineer')
+                        .end()
+                        .blurActiveElement()
+                        .findByCssSelector('.inpt span')
+                        .click()
+                        .end()
+                        .sleep(2000)
+                        .captureElementByCssSelector('.jobform-ui','Screenshots/Orange','search-form')
+                        .captureElementByCssSelector('.joblist','Screenshots/Orange','results');
+            },
+            'Open_first_result' : function () { /* Open and check first result */
+                return eagle
+                        .findByCssSelector('.joblist-list li')
+                        .click()
+                        .end()
+                        .sleep(2000)
+                        .captureElementByCssSelector('.joboffer','Screenshots/Orange','job-offer');
+            },
+            'Open_details' : function () { /* Open and check job offer details */
+                return eagle
+                        .findById('arrow-next')
+                        .click()
+                        .end()
+                        .sleep(3000)
+                        .captureFullScreenShot('Screenshots/Orange','job-details');
+            },
+            'Back_to_app' : function () { /* Come back to main page */
+                return eagle
+                        .findById('arrow-prev')
+                        .click()
+                        .end()
+                        .sleep(2000);
+            },
+            teardown: function () {
+                eagle.quit();
+            }
+        });
+    };
+});
+                            {% endhighlight %}
+                    </div>
+                </div>
+            </div>
+            <p>
+                Or you can make your own test by using commands described in the <a href="/docs/module-Eagle-Eagle.html" target="_blank">documentation</a>.
+            </p>
+            <h2>Run your test</h2>
+            <p>
+                First, on graphical interface, open a terminal and start the chromedriver
+            </p>
+            {% highlight sh shell %}
+            ./chromedriver
+            {% endhighlight %}
+            <p>
+                Then, to run your test, you need to be in your project directory, then simply run this command:
+            </p>
+            {% highlight sh shell %}
+            node node_modules/intern/client.js --config=config.js
+            {% endhighlight %}
+            <h3 class="u-marg-t-30">Generate reference picture</h3>
+            <p>
+                During the first run, each capture will be saved as reference with a <code>-REF.png</code> suffix.
+                Then, next runs will always compare the <code>REF</code> image with the <code>LAST</code> image.
+                When a difference is found, a third image is generated as <code>DIFF</code>.
+            </p>
+            <p>
+                To re-generate a <code>REF</code> image, just delete it and a new one will be created on the next run.
+            </p>
+            <h3 class="u-marg-t-30">Save references on SVN (optional)</h3>
+            <p>
+                Experimental
+            </p>
+            <h3 class="u-marg-t-30">Test your scenario</h3>
+            <p class="u-marg-b-30">
+                To be sure your test is working, you should edit a <code>REF</code> image and change anything in it (at least one pixel).
+                It will trigger an error on the next run.
+            </p>
+			<h3 class="u-marg-t-30">Generate test reports</h3>
+			<p>
+                There are many <a href="https://github.com/theintern/intern/wiki/Using-and-Writing-Reporters" target="_blank">reports available</a>.<br/>
+                By default, console report is used.<br/>
+                For example, command below generate jUnit and console report
+            </p>
+            
+            {% highlight sh shell %}
+            node node_modules/intern/client.js --config=config.js --reporters=junit --reporters=console
+            {% endhighlight %}
+        </div>
+    </div>
+</div>
+{% for sec in site.tags.sections %}
+{% if sec.htmlId contains 'footer' %}
+<section id="{{ sec.htmlId }}">
+    <div class="container">
+        <div class="row">
+            {{ sec.content }}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endfor %}

@@ -1,0 +1,71 @@
+---
+htmlId: 'features'
+tags: ['sections']
+---
+
+<script type="text/javascript">
+//    $(function() {
+//        $('.js-lastImg').magnificPopup({
+//            type: 'image',
+//            closeOnContentClick: true,
+//            mainClass: 'mfp-img-mobile',
+//            image: {
+//                verticalFit: true
+//            }
+//        });
+//    });
+$(function() {
+    $('.js-gallery').magnificPopup({
+        delegate: 'a.js-img',
+        type: 'image',
+        closeOnContentClick: false,
+        closeBtnInside: false,
+        mainClass: 'mfp-with-zoom mfp-img-mobile',
+        image: {
+            verticalFit: true,
+            titleSrc: function(item) {
+                return item.el.attr('title') + ' &middot; <a class="image-source-link" href="'+item.el.attr('data-source')+'" target="_blank">image source</a>';
+            }
+        },
+        gallery: {
+            enabled: true
+        },
+        zoom: {
+            enabled: true,
+            duration: 300,
+            opener: function(element) {
+                return element.find('img');
+            }
+        }
+    });
+});
+</script>
+
+<div class="col-sm-12 u-marg-t-30 u-marg-b-30 col-sm-offset-4">
+    <h3 class="u-marg-b-40">
+        Testing your web apps by picture comparisons
+    </h3>
+    <ul>
+        <li>
+            Functionnal and unit testing by comparing partial screenshots (<a href="http://huddle.github.io/Resemble.js/">Resemble.JS</a>)
+        </li>
+        <li>
+            Easy to maintain because you only have to change reference pictures
+        </li>
+        <li>
+            Run tests within popular <a href="http://nodejs.org/">NodeJS</a> platform
+        </li>
+        <li>
+            Use <a href="http://www.w3.org/TR/2013/WD-webdriver-20130117/">WebDriver API</a> to write tests on any browser (IE8+, FF, Chrome, Safari, Android, IOS)
+        </li>
+        <li>
+            Write tests using any style you like (TDD, BDD, whatever!)
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <a href="/getting-started" class="btn btn-lg btn-block btn-primary">Try it now !</a>
+    </div>
+</div>

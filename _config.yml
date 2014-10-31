@@ -1,0 +1,25 @@
+# Site settings
+title: Eagle
+email: paul.musso@orange.com
+description: "Catching bugs by pictures"
+
+author: "Paul Musso"
+headTitle: "Eagle - test automation - visual regression testing"
+metaDescription: "Eagle - test automation - visual regression testing"
+
+baseurl: ""
+url: "http://eagle.github.io"
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+excerpt_separator: ""
+
+exclude:
+- bower_components
+- less
+- node_modules
+- Gruntfile.js
+- package.json
+- README.md
+- bower.json

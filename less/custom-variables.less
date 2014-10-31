@@ -1,0 +1,41 @@
+@font-face {
+	font-family: 'Rodus';
+	src: url('../fonts/rodusreg300-webfont.eot');
+	src: url('../fonts/rodusreg300-webfont.eot?#iefix') format('embedded-opentype'),
+	url('../fonts/rodusreg300-webfont.woff') format('woff'),
+	url('../fonts/rodusreg300-webfont.svg#Rodus') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'AdamCGPro';
+	src: url('../fonts/ADAM.CGPRO.otf');
+	src: url('../fonts/ADAM.CGPRO.otf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@-webkit-keyframes hideshow {
+	0% { transform: scale(1); }
+	50% { transform: scale(0.75); }
+	100% { transform: scale(1); }
+}
+
+@font-size-base: 16px;
+@font-line-height: 1.6em;
+@font-family-title : 'Rodus';
+@font-family-sub-title: 'AdamCGPro';
+@font-family: 'Open Sans';
+
+@color-primary: #FF9900;
+@color-dark-grey: lighten(#000000, 30%);
+@color-bg: #FFFFFF;
+@color-bg-alt: #EEEEEE;
+@color-text: @color-dark-grey;
+@color-text-alt: #FFFFFF;
+
+@brand-primary: @color-primary;
+
+@phone: ~"(max-width: 767px)";
+@tablet: ~"(min-width: 767px) and (max-width : 991px)";

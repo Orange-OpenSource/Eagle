@@ -1,0 +1,29 @@
+---
+htmlId: 'preview'
+tags: ['sections']
+---
+
+<div class="col-sm-12">
+    <h3>
+        Here is a preview !
+    </h3>
+    <p>
+        To see how writing test is so simple with Eagle, take a look at this example.
+    </p>
+    <div>
+{% highlight js %}
+'Type-Search' : function () {
+    return eagle
+        .findByCssSelector('.inpt input')
+        .type('engineer')
+        .end()
+        .findByCssSelector('.inpt span')
+        .click()
+        .end()
+        .sleep(2000)
+        .captureElementByCssSelector('.jobform-ui','Screenshots/Orange','search-form')
+        .captureElementByCssSelector('.joblist','Screenshots/Orange','results');
+}
+{% endhighlight %}
+    </div>
+</div>
