@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link href="/toastr/toastr.css" rel="stylesheet"/>
+<title>listing directory {directory}</title>
+<style>{style}</style>
+<script src="/public/jquery.min.js"></script>
+<script src="/toastr/toastr.js"></script>
+<script>
+function elem(id){
+    var ele = 'string' == typeof id
+            ? document.getElementById(id)
+            : id;
+    if (ele === null) {return null;}
+    ele.on = function(event, fn){
+        if ('content loaded' == event) {
+            event = window.attachEvent ? "load" : "DOMContentLoaded";
+        }
+        ele.addEventListener
+                ? ele.addEventListener(event, fn, false)
+                : ele.attachEvent("on" + event, fn);
+    };
+
+    ele.all = function(selector){
+        return elem(ele.querySelectorAll(selector));
+    };
+
+    ele.each = function(fn){
+        for (var i = 0, len = ele.length; i < len; ++i) {
+            fn(elem(ele[i]), i);
+        }
+    };
+
+    ele.getClasses = function(){
+        return this.getAttribute('class').split(/\s+/);
+    };
+
+    ele.addClass = function(name){
+        var classes = this.getAttribute('class');
+        ele.setAttribute('class', classes
+                ? classes + ' ' + name
+                : name);
+    };
+
+    ele.removeClass = function(name){
+        var classes = this.getClasses().filter(function(curr){
+            return curr != name;
+        });
+        this.setAttribute('class', classes.join(' '));
+    };
+
+    return ele;
+}
+
+function search() {
+    var str = elem('search').value
+            , links = elem('files').all('a');
+
+    links.each(function(link){
+        var text = link.textContent;
+
+        if ('..' == text) return;
+        if (str.length && ~text.indexOf(str)) {
+            link.addClass('highlight');
+        } else {
+            link.removeClass('highlight');
+        }
+    });
+}
+
+elem(window).on('content loaded', function(){
+    elem('search').on('keyup', search);
+    addSvnFolderButtons();
+
+});
+
+checkFilesSvn(window.location.pathname);
+
+function checkFilesSvn(pathname) {
+    var directory,
+            params,
+            count = 0,
+            listLength = 0,
+            url = "/svn/checkall",
+            http = new XMLHttpRequest(),
+            list;
+
+    directory = (pathname.split('/Screenshots')[1] == "") ? "/" :  pathname.split('/Screenshots/')[1]
+    directory = directory || '/';
+    params = "directory=" + directory;
+
+    http.open("GET", url+"?"+params, true);
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            list = JSON.parse(http.responseText);
+            for( var index in list) {
+                listLength++;
+                if(list.hasOwnProperty(index) && elem("add"+list[index]) !== null){
+                    if(elem("add_DIR_")){count++;}
+                    elem("add"+list[index]).addClass('disabled');
+                    elem("del"+list[index]).removeClass('disabled');
+                }
+            }
+            if(count > 0){
+                elem("del_DIR_").removeClass('disabled');
+            }
+//            if(count === listLength){
+//                elem("add_DIR_").addClass('disabled');
+//            }
+        }
+    };
+    http.send(null);
+}
+
+function checkSvn(pathname, file) {
+    var directory,
+            params,
+            url = "/svn/check",
+            http = new XMLHttpRequest();
+
+    directory = (pathname.split('/Screenshots')[1] == "") ? "/" :  pathname.split('/Screenshots/')[1]
+    params = "directory=" + directory + "&file=" + file;
+
+    http.open("GET", url+"?"+params, true);
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            toastr.info(http.responseText);
+        }
+    };
+    http.send(null);
+}
+function addToSvn(pathname, file) {
+    var directory,
+            params,
+            url = "/svn/add",
+            http = new XMLHttpRequest();
+
+    directory = (pathname.split('/Screenshots')[1] == "") ? "/" :  pathname.split('/Screenshots/')[1]
+    params = "directory=" + directory + "&file=" + file;
+
+    http.open("GET", url+"?"+params, true);
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            toastr.info(http.responseText);
+            checkFilesSvn(window.location.pathname);
+        }
+    };
+    http.send(null);
+}
+function addAllToSvn(pathname) {
+    var directory,
+            params,
+            url = "/svn/addall",
+            http = new XMLHttpRequest();
+
+    directory = (pathname.split('/Screenshots')[1] == "") ? "/" :  pathname.split('/Screenshots/')[1];
+    params = "directory=" + directory;
+    debugger;
+    http.open("GET", url+"?"+params, true);
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            toastr.info(http.responseText);
+            checkFilesSvn(window.location.pathname);
+        }
+    };
+    http.send(null);
+}
+
+function delFromSvn(pathname, file) {
+    var directory,
+            params,
+            url = "/svn/delete",
+            http = new XMLHttpRequest();
+
+    directory = (pathname.split('/Screenshots')[1] == "") ? "/" :  pathname.split('/Screenshots/')[1]
+    params = "directory=" + directory + "&file=" + file;
+
+    http.open("GET", url+"?"+params, true);
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            toastr.info(http.responseText);
+            checkFilesSvn(window.location.pathname);
+        }
+    };
+    http.send(null);
+}
+
+function delAllFromSvn(pathname) {
+    var directory,
+            params,
+            url = "/svn/deleteall",
+            http = new XMLHttpRequest();
+
+    directory = (pathname.split('/Screenshots')[1] == "") ? "/" :  pathname.split('/Screenshots/')[1]
+    params = "directory=" + directory;
+
+    http.open("GET", url+"?"+params, true);
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            toastr.info(http.responseText);
+            checkFilesSvn(window.location.pathname);
+        }
+    };
+    http.send(null);
+}
+
+function addSvnFolderButtons () {
+    var addBtn = document.getElementById("add_DIR_"), delBtn = document.getElementById("del_DIR_");
+
+    if (addBtn){
+        addBtn.onclick = function(){
+            addAllToSvn(window.location.pathname);
+            return false;
+        };
+        addBtn.innerHTML = "Add all to SVN";
+    }
+
+    if (delBtn){
+        delBtn.onclick = function(){
+            delAllFromSvn(window.location.pathname);
+            return false;
+        };
+        delBtn.innerHTML = "Delete all on SVN";
+    }
+}
+
+
+</script>
+</head>
+<body class="directory">
+<img id="logo" src="/public/logo_orange.bmp" alt="logo Orange"/>
+<input id="search" type="text" placeholder="Search" autocomplete="off" />
+<div id="wrapper">
+    <h1>{linked-path}</h1>
+    {files}
+</div>
+</body>
+</html>

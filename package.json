@@ -1,0 +1,33 @@
+{
+  "name": "eagle-js",
+  "description": "Visual regression testing",
+  "version": "0.0.3",
+  "author": {
+    "name": "Julien Giffard"
+  },
+  "keywords": [
+    "tests",
+    "automated",
+    "visual",
+    "regression"
+  ],
+  "engines": {
+    "node": ">= 0.10.26"
+  },
+  "main": "eagle.js",
+  "dependencies": {
+    "resemble": "1.0.3",
+    "node-fs": "0.1.7",
+    "leadfoot": "1.0.2",
+    "gm": "1.14.2",
+    "lodash": "2.4.1",
+    "chai": "1.9.1"
+  },
+  "devDependencies": {
+	"grunt": "~0.4.4",
+	"grunt-nodemon": "^0.2.1",
+	"load-grunt-tasks": "^0.4.0"
+  },
+  "_id": "eagle-js@0.0.3",
+  "_from": "eagle-js@"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "Eagle-Explorer",
+  "description": "Manage Eagle screenshots, add/delete references fron source control",
+  "version": "0.1.0",
+  "private": false,
+  "author": {
+    "name": "Julien Giffard"
+  },
+  "contributors" : [{
+	  "name": "Paul Musso",
+	  "email": "paul.musso@orange.com"
+  }],
+  "keywords": [
+    "tests",
+    "automated",
+    "ndi"
+  ],
+  "engines": {
+    "node": ">= 0.10.26"
+  },
+  "dependencies": {
+    "svn-spawn": "0.1.4",
+	"express": "^4.1.1",
+	"q": "1.0.1",
+	"batch": "0.5.0",
+	"negotiator": "0.4.3"
+  }
+}
