@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2014 Orange
+ * Licensed under MIT (https://github.com/Orange-OpenSource/Eagle/blob/master/LICENSE)
+ */
+
 var fs = require('node-fs'); /* node-fs allows recursive mkdir */
 module.exports = {
     mkdirIfNotExists : function(/*String*/ dirPath) {
