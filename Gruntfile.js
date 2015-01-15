@@ -13,7 +13,8 @@ module.exports = function(grunt) {
 //                                res.send('toto');
 //                            })
 //                            require('grunt-connect-proxy/lib/utils').proxyRequest,
-                            connect.static('_site')
+                            connect().use('/Eagle', connect.static('_site')),
+
 //                            connect().use('/lib', connect.static('lib')),
 //                            connect().use('/fonts', connect.static('lib/bootstrap/fonts'))
                         ];
