@@ -317,7 +317,46 @@ define([
             </p>
             <h3 class="u-marg-t-30">Save references on SVN (optional)</h3>
             <p>
-                Experimental
+                Eagle explorer helps you to
+                <ul>
+                    <li>View easily reference, current and differential pictures</li>
+                    <li>Save on SVN referential pictures</li>
+                    <li>Delete from SVN referential pictures</li>
+                </ul>
+            </p>
+            <p>
+                To run Eagle Explorer, check explorer configuration file (<a
+                    href="https://github.com/Orange-OpenSource/Eagle/blob/master/explorer/config.js">&lt;PROJECT DIRECTORY&gt;/node_modules/eagle-js/explorer/config.js</a> )
+                {% highlight js linenos %}
+// path where screenshots are saved
+workingPath: '<your directory path>',
+// svn path where screenshots are saved
+repoPath: '<your svn path>',
+port: 3001,
+svn: {
+    username: '<svn username>',
+    password: '<svn password>',
+    // Watch code in explorer.js to know how to encrypt your path (decrypt method at the end of the file)
+    encryptedPassword: '<svn encrypted password>'
+}
+                {% endhighlight %}
+            </p>
+            <p>
+                And set up correctly these variables
+                <ul>
+                    <li>workingPath</li>
+                    <li>repoPath</li>
+                    <li>port : explorer HTTP port</li>
+                    <li>And svn variables (username, password, or encryptedPassword if needed)</li>
+                </ul>
+            </p>
+            <p>Install Eagle Explorer dependencies and launch it</p>
+            {% highlight sh shell %}
+cd node_modules/eagle-js/explorer && npm install
+node explorer.js
+            {% endhighlight %}
+            <p>
+                Eagle Explorer is launched, open a browser on explorer url and you can now navigate and manage easily referential pictures on SVN.
             </p>
             <h3 class="u-marg-t-30">Test your scenario</h3>
             <p class="u-marg-b-30">
@@ -334,6 +373,7 @@ define([
             {% highlight sh shell %}
             node node_modules/intern/client.js --config=config.js --reporters=junit --reporters=console
             {% endhighlight %}
+
         </div>
     </div>
 </div>
